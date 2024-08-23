@@ -37,6 +37,9 @@ public class JugadoresController : Controller
     {
         string resultado = "";
 
+        Nombre = Nombre.ToUpper();
+        Puesto = Puesto.ToUpper();
+
         if (JugadorID == 0)
         {
             var existenDatos = _context.Jugadores.Where(e => e.Nombre == Nombre).Count();
