@@ -1,0 +1,66 @@
+@{
+  ViewData["Title"] = "Jugadores de Futbol";
+}
+
+<div class="text-center">
+  <h1 class="display-4">Listado de Jugadores</h1>
+</div>
+
+<div class="fixed-action-btn">
+  <button class="btn-floating btn-large red" data-bs-toggle="modal" data-bs-target="#modalJugadores" onclick="NuevoJugador()">
+    +
+  </button>
+  
+</div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalJugadores"
+  onclick="NuevoJugador()">
+  Nuevo Jugador
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalJugadores" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tituloModal"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          onclick="LimpiarModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <input type="hidden" id="JugadorID" value="0" />
+          <label for="NombreJugador" class="form-label">Nombre del jugador</label>
+          <input type="text" id="NombreJugador" class="form-control">
+
+          <label for="PuestoJugador" class="form-label">Puesto del jugador</label>
+          <input type="text" id="PuestoJugador" class="form-control">
+
+          <label for="AnioNacimiento" class="form-label">Año de nacimiento</label>
+          <input type="number" id="AnioNacimiento" class="form-control">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal()">Cerrar</button>
+        <button type="button" class="btn btn-success" onclick="GuardarJugador()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Jugador</th>
+      <th>Puesto en la cancha</th>
+      <th>Año de nacimiento</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="tbody-jugadores"></tbody>
+</table>
+
+@section Scripts {
+  <script src="~/js/jugadores-1.0.js"></script>
+}
