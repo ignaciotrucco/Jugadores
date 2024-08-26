@@ -2,7 +2,10 @@ window.onload = GraficoPartidos();
 
 let graficoPartidos;
 
-
+document.addEventListener("DOMContentLoaded", function () {
+    const currentMonth = new Date().getMonth() + 1; // los meses recorren de 0 a 11, entonces agregamos +1
+    document.getElementById("MesPartidoBuscar").value = currentMonth;
+});
 
 $("#JugadorID ,#MesPartidoBuscar, #AnioPartidoBuscar").change(function () {
     graficoPartidos.destroy();

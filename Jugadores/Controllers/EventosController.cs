@@ -1,0 +1,74 @@
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Jugadores.Models;
+using Jugadores.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+
+namespace Jugadores.Controllers;
+
+public class EventosController : Controller
+{
+    private ApplicationDbContext _context;
+
+    public EventosController(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public IActionResult Eventos()
+    {
+        var partidos = _context.Partidos.ToList();
+
+        partidos.Add(new Partido { PartidoID = 0, Estadio = "SELECCIONE EL ESTADIO DONDE SE JUGÓ. . . " });
+        ViewBag.PartidoID = new SelectList(partidos.OrderBy(j => j.PartidoID), "PartidoID", "Estadio");
+
+        return View();
+    }
+
+    public JsonResult TraerDetallePartido(int PartidoID)
+    {
+        // Primero, obtienes el partido con el ID especificado, incluyendo la relación con el jugador
+        var partido = _context.Partidos
+                              .Include(p => p.Jugador)
+                              .FirstOrDefault(p => p.PartidoID == PartidoID);
+
+        // Luego, verificas si el partido existe
+        if (partido == null)
+        {
+            return Json(null); // o podrías devolver un mensaje de error
+        }
+
+        // Después, haces la proyección para seleccionar solo los datos necesarios
+        var partidoDto = new
+        {
+            Nombre = partido.Jugador.Nombre,
+            FechaPartido = partido.FechaPartido
+        };
+
+        // Finalmente, devuelves los datos proyectados como JSON
+        return Json(partidoDto);
+    }
+
+    public JsonResult ListadoEventos(int? EventoPartidoID)
+    {
+        var listadoEventos = _context.EventoPartidos.Include(l => l.Partido).Include(l => l.Partido.Jugador).ToList();
+
+        if (EventoPartidoID != null) {
+            listadoEventos = _context.EventoPartidos.Where(l => l.EventoPartidoID == EventoPartidoID).ToList();
+        }
+
+        var listadoEventosMostrar = listadoEventos.Select(p => new VistaEventos {
+            EventoPartidoID = p.EventoPartidoID,
+            PartidoID = p.PartidoID,
+            EstadioPartido = p.Partido.Estadio,
+            NombreJugador = p.Partido.Jugador.Nombre,
+            FechaPartido = p.Partido.FechaPartido,
+            Descripcion = p.Descripcion
+        }).ToList();
+
+        return Json(listadoEventosMostrar);
+    }
+
+
+}
