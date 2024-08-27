@@ -70,5 +70,40 @@ public class EventosController : Controller
         return Json(listadoEventosMostrar);
     }
 
+    public JsonResult GuardarEvento(int EventoPartidoID, int PartidoID, DateTime FechaEvento, string? Descripcion)
+    {
+        Descripcion = Descripcion.ToUpper();
+        string result = "";
+
+        if (EventoPartidoID == 0)
+        {
+            var nuevoEvento = new EventoPartido 
+            {
+                PartidoID = PartidoID,
+                FechaEvento = FechaEvento,
+                Descripcion = Descripcion
+            };
+            _context.Add(nuevoEvento);
+            _context.SaveChanges();
+            result = "agg";
+        }
+        else 
+        {
+            var editarEvento = _context.EventoPartidos.Where(e => e.EventoPartidoID == EventoPartidoID).SingleOrDefault();
+            if (editarEvento != null)
+            {
+                editarEvento.PartidoID = PartidoID;
+                editarEvento.FechaEvento = FechaEvento;
+                editarEvento.Descripcion = Descripcion;
+                _context.SaveChanges();
+                result = "edit";
+            }
+        }
+
+
+
+        return Json(result);
+    }
+
 
 }
