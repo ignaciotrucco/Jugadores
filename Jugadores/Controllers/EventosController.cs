@@ -23,6 +23,11 @@ public class EventosController : Controller
         partidos.Add(new Partido { PartidoID = 0, Estadio = "SELECCIONE EL ESTADIO DONDE SE JUGÓ. . . " });
         ViewBag.PartidoID = new SelectList(partidos.OrderBy(j => j.PartidoID), "PartidoID", "Estadio");
 
+        var jugadores = _context.Jugadores.ToList();
+
+        jugadores.Add(new Jugador { JugadorID = 0, Nombre = "[TODOS LOS JUGADORES]"});
+        ViewBag.JugadorID = new SelectList(jugadores.OrderBy(j => j.JugadorID), "JugadorID", "Nombre");
+
         return View();
     }
 
@@ -50,12 +55,15 @@ public class EventosController : Controller
         return Json(partidoDto);
     }
 
-    public JsonResult ListadoEventos(int? EventoPartidoID)
+    public JsonResult ListadoEventos(int? EventoPartidoID, int? JugadorID)
     {
         var listadoEventos = _context.EventoPartidos.Include(l => l.Partido).Include(l => l.Partido.Jugador).ToList();
 
         if (EventoPartidoID != null) {
             listadoEventos = _context.EventoPartidos.Where(l => l.EventoPartidoID == EventoPartidoID).ToList();
+        }
+        if (JugadorID != null && JugadorID != 0) {
+            listadoEventos = _context.EventoPartidos.Where(l => l.Partido.JugadorID == JugadorID).ToList();
         }
 
         var listadoEventosMostrar = listadoEventos.Select(p => new VistaEventos {

@@ -47,12 +47,14 @@ function TraerDetallePartido() {
 
 function ListadoEventos() {
 
+    let jugador = $("#JugadorID").val();
+
     $.ajax({
         // la URL para la petición
         url: '../../Eventos/ListadoEventos',
         // la información a enviar
         // (también es posible utilizar una cadena de datos)
-        data: {  },
+        data: { JugadorID: jugador },
         // especifica si será una petición POST o GET
         type: 'POST',
         // el tipo de información que se espera de respuesta
