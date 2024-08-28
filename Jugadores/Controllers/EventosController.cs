@@ -71,6 +71,7 @@ public class EventosController : Controller
             PartidoID = p.PartidoID,
             EstadioPartido = p.Partido.Estadio,
             NombreJugador = p.Partido.Jugador.Nombre,
+            PuestoJugador = p.Partido.Jugador.Puesto,
             FechaPartido = p.Partido.FechaPartido,
             Descripcion = p.Descripcion
         }).ToList();

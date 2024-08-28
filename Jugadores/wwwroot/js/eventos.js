@@ -75,6 +75,7 @@ function ListadoEventos() {
                 <tr>
                     <td>${listadoEvento.estadioPartido}</td>
                     <td>${listadoEvento.nombreJugador}</td>
+                    <td>${listadoEvento.puestoJugador}</td>
                     <td>${listadoEvento.fechaPartido}</td>
                     <td>${listadoEvento.descripcion}</td>
                     <td class="text-center">
