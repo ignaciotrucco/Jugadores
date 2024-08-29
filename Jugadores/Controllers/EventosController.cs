@@ -114,5 +114,14 @@ public class EventosController : Controller
         return Json(result);
     }
 
+    public JsonResult EliminarEvento(int EventoPartidoID) 
+    {
+        var eliminarEvento = _context.EventoPartidos.Find(EventoPartidoID);
+        _context.Remove(eliminarEvento);
+        _context.SaveChanges();
+
+        return Json(eliminarEvento);
+    }
+
 
 }

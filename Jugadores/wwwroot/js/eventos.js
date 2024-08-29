@@ -84,7 +84,7 @@ function ListadoEventos() {
                     </button>
                     </td>
                     <td class="text-center">
-                    <button type="button" class="btn btn-danger btn-sm" onclick="">
+                    <button type="button" class="btn btn-danger btn-sm" onclick="EliminarEvento(${listadoEvento.eventoPartidoID})">
                     Eliminar
                     </button>
                     </td>
@@ -114,6 +114,7 @@ function ListadoEventos() {
 }
 
 function GuardarEvento() {
+    let eventoID = $("#EventoPartidoID").val();
     let partidoID = $("#PartidoID").val();
     let fecha = $("#Fecha").val();
     let descripcion = $("#Descripcion").val();
@@ -123,7 +124,7 @@ function GuardarEvento() {
         url: '../../Eventos/GuardarEvento',
         // la información a enviar
         // (también es posible utilizar una cadena de datos)
-        data: { PartidoID: partidoID, FechaEvento: fecha, Descripcion: descripcion },
+        data: {EventoPartidoID: eventoID, PartidoID: partidoID, FechaEvento: fecha, Descripcion: descripcion },
         // especifica si será una petición POST o GET
         type: 'POST',
         // el tipo de información que se espera de respuesta
@@ -147,4 +148,23 @@ function GuardarEvento() {
         }
     });
     
+}
+
+function EliminarEvento(eventoID) {
+    $.ajax({
+        url: '../../Eventos/EliminarEvento',
+        data: { EventoPartidoID: eventoID },
+        type: 'POST',
+        dataType: 'json',
+        success: function (result) {
+            
+            if(!result) {
+                alert("No se puede eliminar este jugador porque ya existe en otra tabla")
+            }
+            ListadoEventos();
+        },
+        error: function (xhr, status) {
+            console.log('Pagina no encontrada');
+        }
+    });
 }
