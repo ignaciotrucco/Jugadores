@@ -10,6 +10,11 @@ public class EventoPartido
     public virtual Partido Partido { get; set; }
 }
 
+public class VistaNombreJugador {
+    public string? NombreJugador { get; set; }
+    public List<VistaEventos> VistaEventos {get; set;}
+}
+
 public class VistaEventos {
     public int EventoPartidoID { get; set; }
     public int PartidoID { get; set; }
@@ -18,4 +23,5 @@ public class VistaEventos {
     public string? PuestoJugador { get; set; }
     public DateOnly FechaPartido { get; set; }
     public string? Descripcion { get; set; }
+    public decimal MinutosJugados { get; set; }
 }
