@@ -25,7 +25,7 @@ public class EventosController : Controller
 
         var jugadores = _context.Jugadores.ToList();
 
-        jugadores.Add(new Jugador { JugadorID = 0, Nombre = "[TODOS LOS JUGADORES]"});
+        jugadores.Add(new Jugador { JugadorID = 0, Nombre = "[TODOS LOS JUGADORES]" });
         ViewBag.JugadorID = new SelectList(jugadores.OrderBy(j => j.JugadorID), "JugadorID", "Nombre");
 
         return View();
@@ -59,14 +59,17 @@ public class EventosController : Controller
     {
         var listadoEventos = _context.EventoPartidos.Include(l => l.Partido).Include(l => l.Partido.Jugador).ToList();
 
-        if (EventoPartidoID != null) {
+        if (EventoPartidoID != null)
+        {
             listadoEventos = _context.EventoPartidos.Where(l => l.EventoPartidoID == EventoPartidoID).ToList();
         }
-        if (JugadorID != null && JugadorID != 0) {
+        if (JugadorID != null && JugadorID != 0)
+        {
             listadoEventos = _context.EventoPartidos.Where(l => l.Partido.JugadorID == JugadorID).ToList();
         }
 
-        var listadoEventosMostrar = listadoEventos.Select(p => new VistaEventos {
+        var listadoEventosMostrar = listadoEventos.Select(p => new VistaEventos
+        {
             EventoPartidoID = p.EventoPartidoID,
             PartidoID = p.PartidoID,
             EstadioPartido = p.Partido.Estadio,
@@ -86,26 +89,41 @@ public class EventosController : Controller
 
         if (EventoPartidoID == 0)
         {
-            var nuevoEvento = new EventoPartido 
+            var existeEvento = _context.EventoPartidos.Where(e => e.PartidoID == PartidoID).Count();
+            if (existeEvento == 0)
             {
-                PartidoID = PartidoID,
-                FechaEvento = FechaEvento,
-                Descripcion = Descripcion
-            };
-            _context.Add(nuevoEvento);
-            _context.SaveChanges();
-            result = "agg";
+                var nuevoEvento = new EventoPartido
+                {
+                    PartidoID = PartidoID,
+                    FechaEvento = FechaEvento,
+                    Descripcion = Descripcion
+                };
+                _context.Add(nuevoEvento);
+                _context.SaveChanges();
+                result = "agg";
+            }
+            else
+            {
+                result = "existe";
+            }
         }
-        else 
+        else
         {
             var editarEvento = _context.EventoPartidos.Where(e => e.EventoPartidoID == EventoPartidoID).SingleOrDefault();
             if (editarEvento != null)
             {
-                editarEvento.PartidoID = PartidoID;
-                editarEvento.FechaEvento = FechaEvento;
-                editarEvento.Descripcion = Descripcion;
-                _context.SaveChanges();
-                result = "edit";
+                var existeEventoEditar = _context.EventoPartidos.Where(e => e.PartidoID == PartidoID).Count();
+                if (existeEventoEditar == 0)
+                {
+                    editarEvento.PartidoID = PartidoID;
+                    editarEvento.FechaEvento = FechaEvento;
+                    editarEvento.Descripcion = Descripcion;
+                    _context.SaveChanges();
+                    result = "edit";
+                }
+                else {
+                    result = "edit existente";
+                }
             }
         }
 
@@ -114,7 +132,7 @@ public class EventosController : Controller
         return Json(result);
     }
 
-    public JsonResult EliminarEvento(int EventoPartidoID) 
+    public JsonResult EliminarEvento(int EventoPartidoID)
     {
         var eliminarEvento = _context.EventoPartidos.Find(EventoPartidoID);
         _context.Remove(eliminarEvento);

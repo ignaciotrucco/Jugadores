@@ -9,5 +9,5 @@ public class Jugador
     public string? Nombre { get; set; }
     public int AnioNacimiento { get; set; }
     public string? Puesto { get; set; }
-    public virtual ICollection<Partido> Partidos {get; set;}
+    // public virtual ICollection<Partido> Partidos {get; set;}
 }

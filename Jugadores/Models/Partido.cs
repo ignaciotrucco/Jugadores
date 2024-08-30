@@ -11,7 +11,7 @@ public class Partido
     public decimal MinutosJugados {get; set;}
     public string? Estadio {get; set;}
     public virtual Jugador Jugador {get; set;}
-    public virtual ICollection<EventoPartido> EventosPartidos { get; set; }
+    // public virtual ICollection<EventoPartido> EventosPartidos { get; set; }
 }
 
 public class VistaPartidos {
