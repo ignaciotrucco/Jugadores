@@ -22,6 +22,7 @@ public class VistaPartidos {
     public string? FechaPartidoString {get; set;}
     public decimal MinutosJugados {get; set;}
     public string? Estadio {get; set;}
+    public List<VistaEventos> VistaEventos {get; set;}
 }
 
 public class PartidosPorDia 
