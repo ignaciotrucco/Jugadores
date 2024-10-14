@@ -84,18 +84,14 @@ function ListadoTresNiveles() {
                 <tr>
                     <td>${jugador.nombre}</td>
                     <td>${jugador.anioNacimiento}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="4"></td>
                 </tr>
              `;
 
                 $.each(jugador.vistaPartidos, function (index, partido) {
                     contenidoTabla += `
                         <tr>
-                            <td></td>
-                            <td></td>
+                            <td colspan="2"></td>
                             <td>${partido.fechaPartidoString}</td>
                             <td>${partido.minutosJugados}</td>
                             <td>${partido.estadio}</td>
@@ -106,11 +102,7 @@ function ListadoTresNiveles() {
                     $.each(partido.vistaEventos, function (index, evento) {
                         contenidoTabla += `
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="5"></td>
                                 <td>${evento.descripcion}</td>
                             </tr>
                         `;
